@@ -183,7 +183,7 @@ process.TnP_MuonID = Template.clone(
     InputFileNames = cms.vstring(
 #'file:/afs/cern.ch/user/a/agrebeny/eos/cms/store/group/phys_smp/VJets/Bonzai13TeVoutput/tmp/tnpZ_theTreeCleaned_MCsmallstat_eff_nodz.root' # MC reweighted
 #'file:/tmp/quwang/data_prompt_Json800fb.root'
-'file:/afs/cern.ch/user/q/quwang/eos/cms/store/user/quwang/Trigger/data_prompt_Json800fb.root'
+'file:/tmp/hbrun/data_prompt_Json800fb_part1.root'
 #'file:/afs/cern.ch/user/a/agrebeny/eos/cms/store/group/phys_smp/VJets/Bonzai13TeVoutput/tmp/tnpZ_theTreeCleaned_data_eff_new.root' # MC reweighted
 #'file:/afs/cern.ch/user/a/agrebeny/eos/cms/store/group/phys_smp/VJets/Bonzai13TeVoutput/tmp/tnpZ_theTreeCleaned_data_eff_nodz.root' # Data
 #'file:/afs/cern.ch/user/a/agrebeny/eos/cms/store/group/phys_muon/hbrun/dataCommissioning/TnPtrees/DoubleMuSkim/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/TnPtreesMCdoubleMuon25ns/150930_133759/0000/tnpZ_MC_10.root',
@@ -208,11 +208,11 @@ process.TnP_MuonID = Template.clone(
 if "_weightLumi" in scenario:
         process.TnP_MuonID.WeightVariable = cms.string("weightLumi")
         process.TnP_MuonID.Variables.weightLumi = cms.vstring("weightLumi","0","10","")
-if scenario=="data":
+if "data" in scenario:
     process.TnP_MuonID.InputFileNames = cms.vstring(
                                                     #  "root://eoscms//eos/cms/store/group/phys_muon/hbrun/dataCommissioning/TnPtrees/theDataTnP.root",
                                                     #"/tmp/hbrun/theDataTnP_fullStatDCS.root"
-                                                    "root://eoscms//eos/cms/store/group/phys_muon/hbrun/dataCommissioning/TnPtrees/dataDoubleMu_TnPfullStatJson.root"
+                                                    "file:/tmp/hbrun/data_prompt_Json800fb_part1.root"
                                                     )
 
 #IDS = [ "IsoMu20","Mu20","L2fL1sMu16L1f0L2Filtered10Q","IsoTkMu20","L1sMu16"]
@@ -227,11 +227,17 @@ IDS = [ "Mu17"]
 #ALLBINS = [("pt_eta",PT_ETA_BINS),("phi",PHI_BINS),("eta",ETA_BINS),("vtx",VTX_BINS), ("phiHighEta",PHI_HIGHETA_BINS)]
 ALLBINS = [("pt_eta",PT_ETA_BINS)]
 
+
+
 if len(args) > 1 and args[1] not in IDS: IDS += [ args[1] ]
 for ID in IDS:
     print "now doing ",ID
     if len(args) > 1 and ID != args[1]: continue
     for X,B in ALLBINS:
+        if "earlyData" in scenario:
+            setattr(B,"run",cms.vdouble(0,274093))  #first data part with bug in the MBTF  and in L1/L2 interface
+        elif "lateData" in scenario:
+            setattr(B,"run",cms.vdouble(274094,999999)) #data with trigger stable
         if len(args) > 2 and X not in args[2:]: continue
         module = process.TnP_MuonID.clone(OutputFileName = cms.string("TnP_MuonID_%s_%s_%s.root" % (scenario, ID, X)))
         shape = "vpvPlusExpo"
