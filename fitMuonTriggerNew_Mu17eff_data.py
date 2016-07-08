@@ -182,8 +182,8 @@ VTX_BINS  = cms.PSet(
 process.TnP_MuonID = Template.clone(
     InputFileNames = cms.vstring(
 #'file:/afs/cern.ch/user/a/agrebeny/eos/cms/store/group/phys_smp/VJets/Bonzai13TeVoutput/tmp/tnpZ_theTreeCleaned_MCsmallstat_eff_nodz.root' # MC reweighted
-#'file:/tmp/quwang/data_prompt_Json800fb.root'
-'file:/tmp/hbrun/data_prompt_Json800fb_part1.root'
+'file:/tmp/quwang/data_prompt_Json800fb.root'
+#'file:/tmp/hbrun/data_prompt_Json800fb_part1.root'
 #'file:/afs/cern.ch/user/a/agrebeny/eos/cms/store/group/phys_smp/VJets/Bonzai13TeVoutput/tmp/tnpZ_theTreeCleaned_data_eff_new.root' # MC reweighted
 #'file:/afs/cern.ch/user/a/agrebeny/eos/cms/store/group/phys_smp/VJets/Bonzai13TeVoutput/tmp/tnpZ_theTreeCleaned_data_eff_nodz.root' # Data
 #'file:/afs/cern.ch/user/a/agrebeny/eos/cms/store/group/phys_muon/hbrun/dataCommissioning/TnPtrees/DoubleMuSkim/DYJetsToLL_M-50_TuneCUETP8M1_13TeV-amcatnloFXFX-pythia8/TnPtreesMCdoubleMuon25ns/150930_133759/0000/tnpZ_MC_10.root',
@@ -208,11 +208,12 @@ process.TnP_MuonID = Template.clone(
 if "_weightLumi" in scenario:
         process.TnP_MuonID.WeightVariable = cms.string("weightLumi")
         process.TnP_MuonID.Variables.weightLumi = cms.vstring("weightLumi","0","10","")
-if "data" in scenario:
+if "Data" in scenario:
     process.TnP_MuonID.InputFileNames = cms.vstring(
                                                     #  "root://eoscms//eos/cms/store/group/phys_muon/hbrun/dataCommissioning/TnPtrees/theDataTnP.root",
                                                     #"/tmp/hbrun/theDataTnP_fullStatDCS.root"
-                                                    "file:/tmp/hbrun/data_prompt_Json800fb_part1.root"
+                                                    #"file:/tmp/hbrun/data_prompt_Json800fb_part1.root"
+						    "file:/tmp/quwang/data_prompt_Json800fb.root"
                                                     )
 
 #IDS = [ "IsoMu20","Mu20","L2fL1sMu16L1f0L2Filtered10Q","IsoTkMu20","L1sMu16"]
@@ -291,5 +292,4 @@ for ID in IDS:
              getattr(module.Efficiencies, ID+"_"+X          ).UnbinnedVariables.append("weightLumi")
         setattr(process, "TnP_MuonID_"+ID+"_"+X, module)      
         setattr(process, "run_"+ID+"_"+X, cms.Path(module))
-
 
