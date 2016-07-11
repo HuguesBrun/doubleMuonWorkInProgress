@@ -20,19 +20,14 @@
 void cleanPairs(){
     using namespace std;
     TTree *tIn  = (TTree *) gFile->Get("tpTree/fitter_tree");
-    Float_t pt, abseta, tag_pt, tag_eta, tag_abseta;
+    Float_t pt, abseta, tag_pt, tag_eta;
     Int_t DenomDz, Dz, DzTkM8, DenomMu17Eff, Mu17Eff, DenomMu17TkMu8Eff, EffMu17Mu8, EffMu17TkMu8, pathOr, pathOrMu20, EffMu17Mu8nodz, EffMu17TkMu8nodz, pathOrnodz;
-    Int_t EffMu8orTkMu8dZ;
     Int_t tag_DoubleIsoMu17Mu8_Mu17leg, DoubleIsoMu17Mu8_Mu8leg, DoubleIsoMu17Mu8_Mu17leg, tag_DoubleIsoMu17Mu8_Mu8leg, tag_DoubleIsoMu17Mu8dZ_Mu17leg,   DoubleIsoMu17Mu8dZ_Mu17leg, Mu17_IsoTrkVVL, tag_Mu17_IsoTrkVVL, tag_IsoMu20, IsoMu20, tag_IsoTkMu20, IsoTkMu20 ;
     Int_t tag_DoubleIsoMu17Mu8_IsoMu17leg, DoubleIsoMu17Mu8_IsoMu8leg, DoubleIsoMu17Mu8_IsoMu17leg, tag_DoubleIsoMu17Mu8_IsoMu8leg;
     Int_t Mu17, tag_Mu17;
 
     Int_t tag_DoubleIsoMu17TkMu8_Mu17leg, DoubleIsoMu17TkMu8_TkMu8leg, DoubleIsoMu17TkMu8_Mu17leg, tag_DoubleIsoMu17TkMu8_TkMu8leg, tag_DoubleIsoMu17TkMu8dZ_Mu17,   DoubleIsoMu17TkMu8dZ_Mu17;
     Int_t tag_DoubleIsoMu17TkMu8_IsoMu17leg, DoubleIsoMu17TkMu8_IsoMu8leg, DoubleIsoMu17TkMu8_IsoMu17leg, tag_DoubleIsoMu17TkMu8_IsoMu8leg;
-
-   Float_t combRelIsoPF04dBeta, tag_combRelIsoPF04dBeta;
-   Float_t mass;
-   Int_t Tight2012, tag_Tight2012;
 
    Int_t mcTrue;
    Int_t counter = 0;
@@ -41,14 +36,10 @@ void cleanPairs(){
    ULong64_t event;
   
     tIn->SetBranchAddress("mcTrue", &mcTrue);
-    tIn->SetBranchAddress("Tight2012", &Tight2012);
-    tIn->SetBranchAddress("tag_Tight2012", &tag_Tight2012);
     tIn->SetBranchAddress("pt", &pt);
-    tIn->SetBranchAddress("mass", &mass);
     tIn->SetBranchAddress("abseta", &abseta);
     tIn->SetBranchAddress("tag_pt", &tag_pt);
     tIn->SetBranchAddress("tag_eta", &tag_eta);
-    tIn->SetBranchAddress("tag_abseta", &tag_abseta);
     tIn->SetBranchAddress("event", &event);
 
     tIn->SetBranchAddress("tag_IsoTkMu20", &tag_IsoTkMu20);
@@ -56,9 +47,6 @@ void cleanPairs(){
 
     tIn->SetBranchAddress("tag_IsoMu20", &tag_IsoMu20);
     tIn->SetBranchAddress("IsoMu20", &IsoMu20);
-
-    tIn->SetBranchAddress("combRelIsoPF04dBeta", &combRelIsoPF04dBeta);
-    tIn->SetBranchAddress("tag_combRelIsoPF04dBeta", &tag_combRelIsoPF04dBeta);
 
     tIn->SetBranchAddress("tag_DoubleIsoMu17Mu8_Mu17leg", &tag_DoubleIsoMu17Mu8_Mu17leg);
     tIn->SetBranchAddress("DoubleIsoMu17Mu8_Mu8leg", &DoubleIsoMu17Mu8_Mu8leg);
@@ -104,10 +92,12 @@ void cleanPairs(){
 
 
     // TFile *fOut = new TFile("/tmp/hbrun/tnpZ_theTreeCleaned.root", "RECREATE");
+    // TFile *fOut = new TFile("~/eos/cms/store/group/phys_smp/VJets/Bonzai13TeVoutput/tmp/tnpZ_theTreeCleaned_MCsmallstat_eff_nodz.root", "RECREATE");
 
-    //TFile *fOut = new TFile("/afs/cern.ch/user/q/quwang/eos/cms/store/user/quwang/Trigger/tnpZ_theTreeCleaned_data_eff_Mu17Mu8Clean.root", "RECREATE");
-    TFile *fOut = new TFile("/afs/cern.ch/user/q/quwang/eos/cms/store/user/quwang/Trigger/tnpZ_theTreeCleaned_data_eff_Mu17Mu8Cleantest2.root", "RECREATE");
+//   TFile *fOut = new TFile("~/eos/cms/store/group/phys_smp/VJets/Bonzai13TeVoutput/tmp/tnpZ_theTreeCleaned_MC_eff_new.root", "RECREATE");
+    TFile *fOut = new TFile("/afs/cern.ch/user/q/quwang/eos/cms/store/user/quwang/Trigger/tnpZ_theTreeCleaned_data_eff_Mu17Mu8Clean.root", "RECREATE");
 
+  //  TFile *fOut = new TFile("~/eos/cms/store/group/phys_smp/VJets/Bonzai13TeVoutput/tmp/tnpZ_theTreeCleaned_data_eff_nodz.root", "RECREATE");
 
 
     fOut->mkdir("tpTree")->cd();
@@ -122,7 +112,6 @@ void cleanPairs(){
     tOut->Branch("pathOr", &pathOr, "pathOr/I)");
     tOut->Branch("pathOrMu20", &pathOrMu20, "pathOrMu20/I)");
 
-    tOut->Branch("EffMu8orTkMu8dZ", &EffMu8orTkMu8dZ, "EffMu8orTkMu8dZ/I)");
 // nodz 
     tOut->Branch("EffMu17Mu8nodz", &EffMu17Mu8nodz, "EffMu17Mu8nodz/I)");
     tOut->Branch("EffMu17TkMu8nodz", &EffMu17TkMu8nodz, "EffMu17TkMu8nodz/I)");
@@ -144,14 +133,13 @@ void cleanPairs(){
    // for (int i = 0, n = 100; i < n; ++i) {
         tIn->GetEntry(i);
         
-/*        
         if ((i+1) % step == 0) {
             double totalTime = timer.RealTime()/60.; timer.Continue();
             double fraction = double(i+1)/double(n+1), remaining = totalTime*(1-fraction)/fraction;
             printf("Done %9d/%9d   %5.1f%%   (elapsed %5.1f min, remaining %5.1f min)\n", i, n, i*evDenom, totalTime, remaining);
             fflush(stdout);
         }
-*/       
+       
         ptNow = pt;
         tagPtNow = tag_pt;
         
@@ -173,7 +161,7 @@ void cleanPairs(){
        //
 
        // cout << tag_pt << " , " << pt << "\n";
-          
+
 /*
   for (int i(1); i <= nBinsY ; i++) {
         for (int j(1); j <= nBinsX; j++) {
@@ -207,18 +195,17 @@ void cleanPairs(){
         Dz = 1;
 //----------------------with dz -----------------------------
         EffMu17Mu8 = 0;
-        //if((tag_DoubleIsoMu17Mu8dZ_Mu17leg&&DoubleIsoMu17Mu8_Mu8leg)||(DoubleIsoMu17Mu8dZ_Mu17leg&&tag_DoubleIsoMu17Mu8_Mu8leg))
-        if((tag_DoubleIsoMu17Mu8dZ_Mu17leg&&DoubleIsoMu17Mu8_IsoMu8leg)||(DoubleIsoMu17Mu8dZ_Mu17leg&&tag_DoubleIsoMu17Mu8_IsoMu8leg))
+        if((tag_DoubleIsoMu17Mu8dZ_Mu17leg&&DoubleIsoMu17Mu8_Mu8leg)||(DoubleIsoMu17Mu8dZ_Mu17leg&&tag_DoubleIsoMu17Mu8_Mu8leg))
         EffMu17Mu8 = 1;
 
         EffMu17TkMu8 = 0;
-        //if((tag_DoubleIsoMu17TkMu8dZ_Mu17&&DoubleIsoMu17TkMu8_TkMu8leg)||(DoubleIsoMu17TkMu8dZ_Mu17&&tag_DoubleIsoMu17TkMu8_TkMu8leg))
-        if((tag_DoubleIsoMu17TkMu8dZ_Mu17&&DoubleIsoMu17TkMu8_IsoMu8leg)||(DoubleIsoMu17TkMu8dZ_Mu17&&tag_DoubleIsoMu17TkMu8_IsoMu8leg))
+        if((tag_DoubleIsoMu17TkMu8dZ_Mu17&&DoubleIsoMu17TkMu8_TkMu8leg)||(DoubleIsoMu17TkMu8dZ_Mu17&&tag_DoubleIsoMu17TkMu8_TkMu8leg))
         EffMu17TkMu8 = 1;
 
         pathOr=0;
         if(EffMu17Mu8||EffMu17TkMu8)
         pathOr=1;
+
 
         // cout << "mcTrue:  "  << mcTrue << "\n";
         if((EffMu17Mu8||EffMu17TkMu8)&& mcTrue && tag_pt > 20. && tag_pt < 9999. && pt > 20. && pt < 9999.){
@@ -255,10 +242,6 @@ void cleanPairs(){
         pathOrnodz=0;
         if(EffMu17Mu8nodz||EffMu17TkMu8nodz)
         pathOrnodz=1;
-
-        EffMu8orTkMu8dZ=0;
-        if(EffMu17Mu8nodz||EffMu17TkMu8)
-        EffMu8orTkMu8dZ=1;
 //-----------------------------------------------------------------------
         DzTkM8 = 0;
         if(DoubleIsoMu17TkMu8dZ_Mu17||tag_DoubleIsoMu17TkMu8dZ_Mu17) 
@@ -267,13 +250,15 @@ void cleanPairs(){
         // ----------- new Dz eff (require Mu17_IsoTrkVVL to be on)
 
         DenomMu17Eff=0;
+        //if(((tag_DoubleIsoMu17Mu8_Mu17leg&&DoubleIsoMu17Mu8_Mu8leg)||(DoubleIsoMu17Mu8_Mu17leg&&tag_DoubleIsoMu17Mu8_Mu8leg))&&(DoubleIsoMu17Mu8dZ_Mu17leg||tag_DoubleIsoMu17Mu8dZ_Mu17leg))
         if((Mu17_IsoTrkVVL||tag_Mu17_IsoTrkVVL)&&((tag_DoubleIsoMu17Mu8_Mu17leg&&DoubleIsoMu17Mu8_Mu8leg)||(DoubleIsoMu17Mu8_Mu17leg&&tag_DoubleIsoMu17Mu8_Mu8leg)))
         DenomMu17Eff=1;
 
         DenomMu17TkMu8Eff=0;
         if((Mu17_IsoTrkVVL||tag_Mu17_IsoTrkVVL)&&((tag_DoubleIsoMu17TkMu8_Mu17leg&&DoubleIsoMu17TkMu8_TkMu8leg)||(DoubleIsoMu17TkMu8_Mu17leg&&tag_DoubleIsoMu17TkMu8_TkMu8leg)))
         DenomMu17TkMu8Eff=1;
-//	cout << " pathOrnodz " << pathOrnodz << " EffMu17TkMu8nodz " << EffMu17TkMu8nodz << endl;
+
+
 // HLT_Mu17_TrkIsoVVL_TkMu8_TrkIsoVVL
 
        // ----------- ref trigger Mu 17
@@ -283,9 +268,7 @@ void cleanPairs(){
         if(Mu17||tag_Mu17)
         Mu17Eff = 1;
 
-	//test of asymmetry
-//	if(mass>76 && mass <125 && Mu17Eff>0 && EffMu17Mu8nodz> EffMu17TkMu8nodz && pt>20 && tag_pt>20 && abs(abseta)<2.4 && abs(tag_abseta)<2.4 && Tight2012>0 && tag_Tight2012>0 && (combRelIsoPF04dBeta>-0.5 && combRelIsoPF04dBeta<0.25) && (tag_combRelIsoPF04dBeta>-0.5 && tag_combRelIsoPF04dBeta<0.25))cout << "pathOrnodz" << pathOrnodz << EffMu17TkMu8nodz << EffMu17Mu8nodz << "eta " << abseta << "tag_eat" << tag_abseta << endl;
-//	if(mass>76 && mass <125 && Mu17Eff>0 && EffMu17TkMu8< pathOr && pt>20 && tag_pt>20 && abs(abseta)<2.4 && abs(tag_abseta)<2.4 && Tight2012>0 && tag_Tight2012>0&& (combRelIsoPF04dBeta>-0.5 && combRelIsoPF04dBeta<0.25) && (tag_combRelIsoPF04dBeta>-0.5 && tag_combRelIsoPF04dBeta<0.25))cout << "pathOr" << pathOr << EffMu17TkMu8 << EffMu17Mu8 << "eta " << abseta << "tag_eat" << tag_abseta << endl;
+
         if(Mu17Eff && EffMu17TkMu8 && abs(abseta)<2.4 && abs(tag_eta)<2.4)
         hrpTtest1  -> Fill(pt, tag_pt);
 

@@ -208,7 +208,7 @@ process.TnP_MuonID = Template.clone(
 if "_weightLumi" in scenario:
         process.TnP_MuonID.WeightVariable = cms.string("weightLumi")
         process.TnP_MuonID.Variables.weightLumi = cms.vstring("weightLumi","0","10","")
-if "Data" in scenario:
+if "data" in scenario:
     process.TnP_MuonID.InputFileNames = cms.vstring(
                                                     #  "root://eoscms//eos/cms/store/group/phys_muon/hbrun/dataCommissioning/TnPtrees/theDataTnP.root",
                                                     #"/tmp/hbrun/theDataTnP_fullStatDCS.root"
